@@ -9,3 +9,39 @@
     <orderEntry type="sourceFolder" forTests="false" />
   </component>
 </module>
+
+import java.util.regex.Pattern;
+
+public class PhoneNumberValidator {
+
+    // Regex para validar DDI + DDD + Telefone
+    private static final String PHONE_REGEX = "^\\+(\\d{1,3})\\s?(\\d{2})\\s?(\\d{4,5}-?\\d{4})$";
+
+    /**
+     * Função para validar o número de telefone.
+     * 
+     * @param phoneNumber O número de telefone a ser validado.
+     * @return true se o número for válido, false caso contrário.
+     */
+    public static boolean isValidPhoneNumber(String phoneNumber) {
+        return Pattern.matches(PHONE_REGEX, phoneNumber);
+    }
+
+    public static void main(String[] args) {
+        // Teste da validação
+        String[] testNumbers = {
+            "+55 11 91234-5678", // válido
+            "+1 21 1234-5678",   // válido
+            "+33 98 12345678",   // válido
+            "+5521912345678",    // válido (sem espaços)
+            "+99 8 12345678",    // inválido (DDD deve ter 2 dígitos)
+            "+55 21 123",        // inválido (telefone curto demais)
+            "5521912345678",     // inválido (falta o + no DDI)
+            "+55 11 9123-567"    // inválido (telefone curto demais)
+        };
+
+        for (String phoneNumber : testNumbers) {
+            System.out.printf("Número: %s é válido? %b%n", phoneNumber, isValidPhoneNumber(phoneNumber));
+        }
+    }
+}
